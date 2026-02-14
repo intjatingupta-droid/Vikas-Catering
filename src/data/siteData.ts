@@ -14,6 +14,8 @@ import gallery2 from "@/assets/gallery-2.jpg";
 export interface SiteData {
   siteName: string;
   tagline: string;
+  useLogo: boolean;
+  logoUrl: string;
   phone: string;
   email: string;
   address: string;
@@ -54,6 +56,19 @@ export interface SiteData {
     items: { title: string; description: string; image: string }[];
   };
 
+  detailedMenu: {
+    heroTitle: string;
+    heroImage: string;
+    categories: {
+      title: string;
+      images: string[];
+      subcategories: {
+        name: string;
+        items: string[];
+      }[];
+    }[];
+  };
+
   whyChooseUs: {
     heading: string;
     paragraphs: string[];
@@ -67,6 +82,14 @@ export interface SiteData {
     ctaText: string;
   };
 
+  ourWorkPage: {
+    heroTitle: string;
+    heroMedia: string; // Can be image or video URL
+    heroMediaType: "image" | "video";
+    galleryHeading: string;
+    galleryImages: string[];
+  };
+
   testimonials: {
     heading: string;
     items: { name: string; text: string; rating: number }[];
@@ -76,6 +99,7 @@ export interface SiteData {
     visitHeading: string;
     officeLabel: string;
     enquireHeading: string;
+    alternatePhone?: string;
   };
 
   footer: {
@@ -87,10 +111,12 @@ export interface SiteData {
 }
 
 export const defaultSiteData: SiteData = {
-  siteName: "Shree Vishnu Caterers",
+  siteName: "Vikas Caterings",
   tagline: "Simple As Traditional",
+  useLogo: false,
+  logoUrl: "",
   phone: "090584 81865",
-  email: "info@shreevishnucaterers.com",
+  email: "info@vikascaterings.com",
   address: "306, Sector 15-B, Kar Kunj Chauraha, Avas Vikas Colony, Sikandra, Agra, Uttar Pradesh 282007",
 
   hero: {
@@ -99,13 +125,13 @@ export const defaultSiteData: SiteData = {
     description: "From house parties to corporate events, we serve flavors and elegance that turn every occasion into a memorable experience.",
     ctaText: "Discover Our Menu",
     backgroundImage: heroBg,
-    videoUrl: "",
+    videoUrl: "https://hepbcynttvfgtnembdux.supabase.co/storage/v1/object/public/Vikas%20Catering/Catering%20Advertisement%20%20ATOZO%20%20Maharishi%20Caterers%20%20Catering%20Video%20-%20ATOZO%20Films%20&%20Entertainment%20(1080p,%20h264).mp4",
   },
 
   about: {
     heading: "Award-Winning Caterers in India for Weddings, Corporate Events & Grand Celebrations",
     paragraphs: [
-      "With over 10 years of great catering services, Shree Vishnu Caterers, led by founder Kuldeep Singh, has become known around North India for turning events into special food experiences. Our award-winning team combines real flavors, creative displays, and outstanding service to make every celebration better.",
+      "With over 10 years of great catering services, Vikas Caterings, led by founder Kuldeep Singh, has become known around North India for turning events into special food experiences. Our award-winning team combines real flavors, creative displays, and outstanding service to make every celebration better.",
       "From top weddings to important business events, we offer carefully chosen menus, fresh ingredients, and smooth service that show our quality and style. Serving Agra, Mathura, Gwalior, Noida, Delhi, Gurugram, and nearby areas, we are proud to create memorable dining experiences for every event.",
     ],
     image: aboutAward,
@@ -113,16 +139,16 @@ export const defaultSiteData: SiteData = {
   },
 
   brandSection: {
-    name: "Shree Vishnu Caterers",
+    name: "Vikas Caterings",
     subtitle: "Authentic Indian Catering for Every Celebration",
-    description: "At Shree Vishnu Caterers, we serve authentic Indian dishes, fresh ingredients, and flawless service for weddings, birthdays, kitty parties, and corporate events. Our expert team customizes every menu to your taste, making every occasion unforgettable.",
+    description: "At Vikas Caterings, we serve authentic Indian dishes, fresh ingredients, and flawless service for weddings, birthdays, kitty parties, and corporate events. Our expert team customizes every menu to your taste, making every occasion unforgettable.",
     ctaText: "Book Now",
   },
 
   services: {
     sectionTitle: "India's Leading Caterer for Every Occasion",
     sectionSubtitle: "",
-    description: "At Shree Vishnu Caterers, we understand that every event is unique and deserves exceptional catering. Our services are designed to create memorable experiences, whether it's a grand wedding, a professional corporate gathering, or an intimate birthday party.",
+    description: "At Vikas Caterings, we understand that every event is unique and deserves exceptional catering. Our services are designed to create memorable experiences, whether it's a grand wedding, a professional corporate gathering, or an intimate birthday party.",
     items: [
       { title: "Festive Gathering Catering", description: "Authentic festive catering for Diwali, Holi, Eid, and more. Traditional menus, fresh ingredients, and flavors that bring joy to every celebration.", image: festiveCatering },
       { title: "Wedding Catering", description: "Premium wedding catering with authentic flavors, elegant presentation, and customized menus for every ceremony.", image: weddingCatering },
@@ -140,6 +166,57 @@ export const defaultSiteData: SiteData = {
       { title: "Italian Cuisine", description: "From house parties to corporate events, we bring flavors and sophistication that make every moment unforgettable.", image: italianCuisine },
       { title: "Chinese Cuisine", description: "From house parties to corporate events, we bring flavors and sophistication that make every moment unforgettable.", image: chineseCuisine },
     ],
+  },
+
+  detailedMenu: {
+    heroTitle: "Our Menu",
+    heroImage: heroBg,
+    categories: [
+      {
+        title: "Beverages",
+        images: [indianCuisine, southIndian, punjabiCuisine, chineseCuisine],
+        subcategories: [
+          {
+            name: "Welcome Drinks",
+            items: ["Mausmi Juice", "Pineapple Juice", "Watermelon Juice"]
+          },
+          {
+            name: "Aerated Drinks",
+            items: ["Masala Chai", "Coffee"]
+          },
+          {
+            name: "Creamy Shakes",
+            items: ["Custard Apple Shake", "Punch Shake", "Oreo Shake", "Pan Shake"]
+          },
+          {
+            name: "Hot Beverages",
+            items: ["Masala Chai", "Coffee"]
+          },
+          {
+            name: "Soup",
+            items: ["Tomato Creamy Soup", "Sweet Corn Soup"]
+          },
+          {
+            name: "Mocktails",
+            items: ["Mojito", "Guava Marinara"]
+          }
+        ]
+      },
+      {
+        title: "Starters & Snacks",
+        images: [italianCuisine, punjabiCuisine, gallery1],
+        subcategories: [
+          {
+            name: "Snacks",
+            items: ["Paneer Afgani Tikka", "Soya Malai Tikka", "Crunchy Papad", "Kabab Hara Bhara", "Kabab Thai Mini", "Spring Roll", "Honey Chilli Potato", "Dry Maunchurian", "Dahi Ke Sole", "French Fries"]
+          },
+          {
+            name: "Chaat Galli",
+            items: ["Pani Puri (suzi + Dal)", "Aloo Tikki", "Raj Kachori", "Jaipuri Paneer Cheela", "Hot English Chaat", "Kesar Dahi Bhalla", "Mattar Kulche", "Dal Muradabadi", "Pau Bhaji"]
+          }
+        ]
+      }
+    ]
   },
 
   whyChooseUs: {
@@ -165,10 +242,23 @@ export const defaultSiteData: SiteData = {
     ctaText: "Explore Our Gallery",
   },
 
+  ourWorkPage: {
+    heroTitle: "Explore Our Work",
+    heroMedia: heroBg,
+    heroMediaType: "image",
+    galleryHeading: "Explore Our Work",
+    galleryImages: [
+      gallery1, gallery2, heroBg, aboutAward, 
+      indianCuisine, southIndian, punjabiCuisine, 
+      italianCuisine, chineseCuisine, festiveCatering,
+      weddingCatering, corporateCatering
+    ],
+  },
+
   testimonials: {
     heading: "Our Testimonials",
     items: [
-      { name: "SUMIT SINGH", text: "The way Shree Vishnu Caterers present food for our guest was amazing, everyone delightfully loved the taste. Top notch services, highly recommended from my side for your wedding or any Occasion.", rating: 5 },
+      { name: "SUMIT SINGH", text: "The way Vikas Caterings present food for our guest was amazing, everyone delightfully loved the taste. Top notch services, highly recommended from my side for your wedding or any Occasion.", rating: 5 },
       { name: "Saurabh Singh Pundhir", text: "Best Catering services in this region, taste, decoration, presentation is best according to the surrounding scenario.", rating: 5 },
       { name: "Ram Bahadur Singh", text: "A heartfelt thank you to Kuldeep Bhai and the entire team. Your work was superb and well-planned. The food was amazing, and the service was superb! Many thanks.", rating: 5 },
     ],
@@ -178,6 +268,7 @@ export const defaultSiteData: SiteData = {
     visitHeading: "Visit Us",
     officeLabel: "Head Office Address",
     enquireHeading: "Enquire Now",
+    alternatePhone: "",
   },
 
   footer: {
