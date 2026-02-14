@@ -1,14 +1,54 @@
 import { useSiteData } from "@/context/SiteDataContext";
+import { useEffect, useRef } from "react";
 
 export default function HeroSection() {
   const { data } = useSiteData();
   const { hero } = data;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !hero.videoUrl) return;
+
+    // Get video duration and set up trimming
+    const handleLoadedMetadata = () => {
+      const duration = video.duration;
+      const trimStart = 8; // Skip first 8 seconds
+      const trimEnd = duration - 8; // End 8 seconds before the end
+
+      // Start video at 8 seconds
+      video.currentTime = trimStart;
+
+      // Loop back to start when reaching trim end
+      const handleTimeUpdate = () => {
+        if (video.currentTime >= trimEnd) {
+          video.currentTime = trimStart;
+        }
+      };
+
+      video.addEventListener('timeupdate', handleTimeUpdate);
+
+      return () => {
+        video.removeEventListener('timeupdate', handleTimeUpdate);
+      };
+    };
+
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+
+    return () => {
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+    };
+  }, [hero.videoUrl]);
 
   return (
     <section className="relative min-h-[80vh] flex items-center">
       {hero.videoUrl ? (
         <video
-          autoPlay muted loop playsInline
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
           className="absolute inset-0 w-full h-full object-cover"
           src={hero.videoUrl}
         />
