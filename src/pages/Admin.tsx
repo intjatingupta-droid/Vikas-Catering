@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useSiteData } from "@/context/SiteDataContext";
 import { SiteData } from "@/data/siteData";
-import { Save, RotateCcw, ChevronRight, Edit3, Plus, Trash2, ArrowLeft } from "lucide-react";
+import { Save, RotateCcw, ChevronRight, Edit3, Plus, Trash2, ArrowLeft, Upload, Link as LinkIcon, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type SectionKey = keyof SiteData;
@@ -65,7 +65,18 @@ export default function AdminPage() {
         <Field label="Description" value={hero.description} onChange={(v) => update({ description: v })} textarea />
         <Field label="CTA Text" value={hero.ctaText} onChange={(v) => update({ ctaText: v })} />
         <Field label="Background Image URL" value={hero.backgroundImage} onChange={(v) => update({ backgroundImage: v })} />
-        <Field label="Video URL (leave empty to use image)" value={hero.videoUrl} onChange={(v) => update({ videoUrl: v })} />
+        <MediaField
+          label="Hero Video"
+          value={hero.videoUrl}
+          onChange={(v) => update({ videoUrl: v })}
+          accept="video/*"
+          hint="Leave empty to show background image instead"
+        />
+        {hero.videoUrl && (
+          <div className="rounded overflow-hidden border border-border">
+            <video src={hero.videoUrl} controls muted className="w-full max-h-48 object-cover" />
+          </div>
+        )}
         <button onClick={showSaved} className="bg-primary text-primary-foreground px-6 py-2 rounded font-semibold flex items-center gap-2">
           <Save className="h-4 w-4" /> Save
         </button>
@@ -375,6 +386,75 @@ function Field({ label, value, onChange, textarea }: { label: string; value: str
         <textarea className="w-full border border-border rounded px-3 py-2 bg-background text-foreground resize-none" rows={3} value={value} onChange={(e) => onChange(e.target.value)} />
       ) : (
         <input className="w-full border border-border rounded px-3 py-2 bg-background text-foreground" value={value} onChange={(e) => onChange(e.target.value)} />
+      )}
+    </div>
+  );
+}
+
+function MediaField({ label, value, onChange, accept = "video/*,image/*", hint }: { label: string; value: string; onChange: (v: string) => void; accept?: string; hint?: string }) {
+  const [mode, setMode] = useState<"url" | "upload">("url");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const objectUrl = URL.createObjectURL(file);
+      onChange(objectUrl);
+    }
+  };
+
+  return (
+    <div>
+      <label className="block text-sm font-semibold mb-1">{label}</label>
+      {hint && <p className="text-xs text-muted-foreground mb-2">{hint}</p>}
+      <div className="flex gap-2 mb-2">
+        <button
+          type="button"
+          onClick={() => setMode("url")}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-colors ${mode === "url" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"}`}
+        >
+          <LinkIcon className="h-3 w-3" /> Paste URL
+        </button>
+        <button
+          type="button"
+          onClick={() => setMode("upload")}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-colors ${mode === "upload" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"}`}
+        >
+          <Upload className="h-3 w-3" /> Upload File
+        </button>
+        {value && (
+          <button
+            type="button"
+            onClick={() => onChange("")}
+            className="ml-auto flex items-center gap-1 px-3 py-1.5 rounded text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors"
+          >
+            <X className="h-3 w-3" /> Remove
+          </button>
+        )}
+      </div>
+      {mode === "url" ? (
+        <input
+          className="w-full border border-border rounded px-3 py-2 bg-background text-foreground text-sm"
+          placeholder="https://example.com/video.mp4"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
+      ) : (
+        <div
+          onClick={() => fileInputRef.current?.click()}
+          className="border-2 border-dashed border-border rounded-lg p-6 text-center cursor-pointer hover:border-primary/50 hover:bg-accent/30 transition-colors"
+        >
+          <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">Click to browse or drag & drop</p>
+          <p className="text-xs text-muted-foreground mt-1">Supports video & image files</p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept={accept}
+            className="hidden"
+            onChange={handleFileChange}
+          />
+        </div>
       )}
     </div>
   );
