@@ -125,7 +125,7 @@ export const defaultSiteData: SiteData = {
     description: "From house parties to corporate events, we serve flavors and elegance that turn every occasion into a memorable experience.",
     ctaText: "Discover Our Menu",
     backgroundImage: heroBg,
-    videoUrl: "https://hepbcynttvfgtnembdux.supabase.co/storage/v1/object/public/Vikas%20Catering/Catering%20Advertisement%20%20ATOZO%20%20Maharishi%20Caterers%20%20Catering%20Video%20-%20ATOZO%20Films%20&%20Entertainment%20(1080p,%20h264).mp4",
+    videoUrl: "https://hepbcynttvfgtnembdux.supabase.co/storage/v1/object/public/Vikas%20Catering/Catering%20Advertisement%20%20ATOZO%20%20Maharishi%20Caterers%20%20Catering%20Video%20-%20ATOZO%20Films%20%26%20Entertainment%20(1080p,%20h264).mp4",
   },
 
   about: {
