@@ -4,13 +4,6 @@
 const isProduction = import.meta.env.MODE === 'production';
 export const API_URL = isProduction ? '' : 'http://localhost:5000';
 
-console.log('🔧 API Configuration:', {
-  mode: import.meta.env.MODE,
-  isProduction,
-  API_URL: API_URL || '(same domain - relative URLs)',
-  allEnv: import.meta.env
-});
-
 // API Endpoints
 export const API_ENDPOINTS = {
   login: `${API_URL}/api/login`,
@@ -22,3 +15,11 @@ export const API_ENDPOINTS = {
   contactUpdate: (id: string) => `${API_URL}/api/contacts/${id}`,
   contactDelete: (id: string) => `${API_URL}/api/contacts/${id}`,
 };
+
+console.log('🔧 API Configuration:', {
+  mode: import.meta.env.MODE,
+  isProduction,
+  API_URL: API_URL || '(same domain - relative URLs)',
+  'API_ENDPOINTS.login': API_ENDPOINTS.login,
+  allEnv: import.meta.env
+});
