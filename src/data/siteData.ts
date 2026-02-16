@@ -120,7 +120,7 @@ export const defaultSiteData: SiteData = {
   address: "306, Sector 15-B, Kar Kunj Chauraha, Avas Vikas Colony, Sikandra, Agra, Uttar Pradesh 282007",
 
   hero: {
-    welcomeText: "Welcome to Shree Vishnu Caterers",
+    welcomeText: "Welcome to Vikas Caterings",
     heading: "Premium Catering Services for Weddings, Corporate Events & Parties",
     description: "From house parties to corporate events, we serve flavors and elegance that turn every occasion into a memorable experience.",
     ctaText: "Discover Our Menu",
@@ -131,7 +131,7 @@ export const defaultSiteData: SiteData = {
   about: {
     heading: "Award-Winning Caterers in India for Weddings, Corporate Events & Grand Celebrations",
     paragraphs: [
-      "With over 10 years of great catering services, Vikas Caterings, led by founder Kuldeep Singh, has become known around North India for turning events into special food experiences. Our award-winning team combines real flavors, creative displays, and outstanding service to make every celebration better.",
+      "With over 10 years of great catering services, Vikas Caterings has become known around North India for turning events into special food experiences. Our award-winning team combines real flavors, creative displays, and outstanding service to make every celebration better.",
       "From top weddings to important business events, we offer carefully chosen menus, fresh ingredients, and smooth service that show our quality and style. Serving Agra, Mathura, Gwalior, Noida, Delhi, Gurugram, and nearby areas, we are proud to create memorable dining experiences for every event.",
     ],
     image: aboutAward,
@@ -260,7 +260,7 @@ export const defaultSiteData: SiteData = {
     items: [
       { name: "SUMIT SINGH", text: "The way Vikas Caterings present food for our guest was amazing, everyone delightfully loved the taste. Top notch services, highly recommended from my side for your wedding or any Occasion.", rating: 5 },
       { name: "Saurabh Singh Pundhir", text: "Best Catering services in this region, taste, decoration, presentation is best according to the surrounding scenario.", rating: 5 },
-      { name: "Ram Bahadur Singh", text: "A heartfelt thank you to Kuldeep Bhai and the entire team. Your work was superb and well-planned. The food was amazing, and the service was superb! Many thanks.", rating: 5 },
+      { name: "Ram Bahadur Singh", text: "A heartfelt thank you to Vikas Caterings and the entire team. Your work was superb and well-planned. The food was amazing, and the service was superb! Many thanks.", rating: 5 },
     ],
   },
 

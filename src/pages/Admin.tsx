@@ -40,6 +40,7 @@ export default function AdminPage() {
   const [contacts, setContacts] = useState<any[]>([]);
   const [loadingContacts, setLoadingContacts] = useState(false);
   const [newContactsCount, setNewContactsCount] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const username = localStorage.getItem("username") || "Admin";
 
@@ -130,20 +131,20 @@ export default function AdminPage() {
   const renderGeneralFields = () => (
     <div className="space-y-6">
       <div className="border-b pb-4">
-        <h3 className="text-lg font-semibold mb-4">Business Information</h3>
+        <h3 className="text-base md:text-lg font-semibold mb-4">Business Information</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold mb-1">Business Name</label>
+            <label className="block text-xs md:text-sm font-semibold mb-1">Business Name</label>
             <input
-              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground"
+              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground text-sm"
               value={data.siteName}
               onChange={(e) => updateData({ siteName: e.target.value })}
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-1">Tagline</label>
+            <label className="block text-xs md:text-sm font-semibold mb-1">Tagline</label>
             <input
-              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground"
+              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground text-sm"
               value={data.tagline}
               onChange={(e) => updateData({ tagline: e.target.value })}
             />
@@ -152,31 +153,31 @@ export default function AdminPage() {
       </div>
 
       <div className="border-b pb-4">
-        <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
+        <h3 className="text-base md:text-lg font-semibold mb-4">Contact Information</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold mb-1">Phone Number</label>
+            <label className="block text-xs md:text-sm font-semibold mb-1">Phone Number</label>
             <input
-              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground"
+              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground text-sm"
               value={data.phone}
               onChange={(e) => updateData({ phone: e.target.value })}
               placeholder="090584 81865"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-1">Email Address</label>
+            <label className="block text-xs md:text-sm font-semibold mb-1">Email Address</label>
             <input
               type="email"
-              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground"
+              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground text-sm"
               value={data.email}
               onChange={(e) => updateData({ email: e.target.value })}
               placeholder="info@vikascaterings.com"
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-1">Office Address</label>
+            <label className="block text-xs md:text-sm font-semibold mb-1">Office Address</label>
             <textarea
-              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground resize-none"
+              className="w-full border border-border rounded px-3 py-2 bg-background text-foreground resize-none text-sm"
               rows={3}
               value={data.address}
               onChange={(e) => updateData({ address: e.target.value })}
@@ -187,7 +188,7 @@ export default function AdminPage() {
       </div>
       
       <div className="border-t pt-4">
-        <h3 className="text-lg font-semibold mb-4">Logo Settings</h3>
+        <h3 className="text-base md:text-lg font-semibold mb-4">Logo Settings</h3>
         <div className="space-y-4">
           <div className="flex items-center gap-3">
             <input
@@ -197,7 +198,7 @@ export default function AdminPage() {
               onChange={(e) => updateData({ useLogo: e.target.checked })}
               className="h-4 w-4"
             />
-            <label htmlFor="useLogo" className="text-sm font-semibold">
+            <label htmlFor="useLogo" className="text-xs md:text-sm font-semibold">
               Use Logo instead of Business Name
             </label>
           </div>
@@ -222,7 +223,7 @@ export default function AdminPage() {
         </div>
       </div>
       
-      <button onClick={showSaved} className="bg-primary text-primary-foreground px-6 py-2 rounded font-semibold flex items-center gap-2">
+      <button onClick={showSaved} className="bg-primary text-primary-foreground px-4 md:px-6 py-2 rounded font-semibold flex items-center gap-2 text-sm md:text-base">
         <Save className="h-4 w-4" /> Save Changes
       </button>
     </div>
@@ -981,62 +982,101 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-muted">
-      <div className="bg-primary text-primary-foreground py-4 px-6 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <h1 className="text-xl font-display font-bold">Admin Panel</h1>
-          <span className="text-sm opacity-80">Welcome, {username}</span>
-        </div>
-        <div className="flex items-center gap-3">
-          {/* Contact Submissions Button */}
-          <button
-            onClick={() => setActiveSection("contacts")}
-            className={`relative flex items-center gap-2 px-5 py-2.5 rounded-lg font-bold text-sm transition-all shadow-lg ${
-              activeSection === "contacts"
-                ? "bg-yellow-400 text-gray-900 scale-105"
-                : "bg-yellow-500 hover:bg-yellow-400 text-gray-900 hover:scale-105"
-            }`}
-          >
-            <Mail className="h-5 w-5" />
-            <span>Contact Submissions</span>
-            {newContactsCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2.5 py-1 rounded-full min-w-[28px] text-center animate-pulse shadow-xl border-2 border-white">
-                {newContactsCount}
-              </span>
-            )}
-          </button>
+      {/* Header */}
+      <div className="bg-primary text-primary-foreground py-3 md:py-4 px-3 md:px-6">
+        <div className="flex items-center justify-between gap-2 mb-2 md:mb-0">
+          <div className="flex items-center gap-2 md:gap-4">
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="md:hidden p-1.5 hover:bg-primary-foreground/10 rounded"
+              aria-label="Toggle menu"
+            >
+              {sidebarOpen ? <X className="h-5 w-5" /> : <Edit3 className="h-5 w-5" />}
+            </button>
+            
+            <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+              <ArrowLeft className="h-4 w-4 md:h-5 md:w-5" />
+            </Link>
+            <h1 className="text-base md:text-xl font-display font-bold">Admin Panel</h1>
+            <span className="hidden sm:inline text-xs md:text-sm opacity-80">Welcome, {username}</span>
+          </div>
           
-          <button 
-            onClick={() => { 
-              if (confirm('⚠️ Are you sure you want to reset ALL data to defaults? This will restore all default images and text. This action cannot be undone!')) {
-                resetToDefaults(); 
-                toast.success('All data reset to defaults!');
-                setTimeout(() => window.location.reload(), 1000);
-              }
-            }} 
-            className="flex items-center gap-2 text-sm hover:opacity-80 bg-red-600/20 hover:bg-red-600/30 px-3 py-1.5 rounded transition-colors"
-          >
-            <RotateCcw className="h-4 w-4" /> Reset to Defaults
-          </button>
-          <button onClick={handleLogout} className="flex items-center gap-2 text-sm hover:opacity-80 bg-primary-foreground/10 px-3 py-1.5 rounded">
-            <LogOut className="h-4 w-4" /> Logout
-          </button>
+          <div className="flex items-center gap-1.5 md:gap-3">
+            {/* Contact Submissions Button */}
+            <button
+              onClick={() => {
+                setActiveSection("contacts");
+                setSidebarOpen(false);
+              }}
+              className={`relative flex items-center gap-1 md:gap-2 px-2 md:px-5 py-1.5 md:py-2.5 rounded-lg font-bold text-xs md:text-sm transition-all shadow-lg ${
+                activeSection === "contacts"
+                  ? "bg-yellow-400 text-gray-900 scale-105"
+                  : "bg-yellow-500 hover:bg-yellow-400 text-gray-900 hover:scale-105"
+              }`}
+            >
+              <Mail className="h-4 w-4 md:h-5 md:w-5" />
+              <span className="hidden sm:inline">Contact Submissions</span>
+              <span className="sm:hidden">Contacts</span>
+              {newContactsCount > 0 && (
+                <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 bg-red-600 text-white text-[10px] md:text-xs font-bold px-1.5 md:px-2.5 py-0.5 md:py-1 rounded-full min-w-[20px] md:min-w-[28px] text-center animate-pulse shadow-xl border-2 border-white">
+                  {newContactsCount}
+                </span>
+              )}
+            </button>
+            
+            <button 
+              onClick={() => { 
+                if (confirm('⚠️ Are you sure you want to reset ALL data to defaults? This will restore all default images and text. This action cannot be undone!')) {
+                  resetToDefaults(); 
+                  toast.success('All data reset to defaults!');
+                  setTimeout(() => window.location.reload(), 1000);
+                }
+              }} 
+              className="hidden lg:flex items-center gap-2 text-sm hover:opacity-80 bg-red-600/20 hover:bg-red-600/30 px-3 py-1.5 rounded transition-colors"
+            >
+              <RotateCcw className="h-4 w-4" /> Reset to Defaults
+            </button>
+            <button 
+              onClick={handleLogout} 
+              className="flex items-center gap-1 md:gap-2 text-xs md:text-sm hover:opacity-80 bg-primary-foreground/10 px-2 md:px-3 py-1.5 rounded"
+            >
+              <LogOut className="h-3 w-3 md:h-4 md:w-4" /> 
+              <span className="hidden sm:inline">Logout</span>
+            </button>
+          </div>
         </div>
       </div>
 
       {saved && (
-        <div className="bg-green-600 text-primary-foreground text-center py-2 text-sm font-semibold">
+        <div className="bg-green-600 text-primary-foreground text-center py-2 text-xs md:text-sm font-semibold">
           ✓ Changes saved successfully!
         </div>
       )}
 
-      <div className="flex min-h-[calc(100vh-60px)]">
+      <div className="flex min-h-[calc(100vh-60px)] relative">
+        {/* Mobile Overlay */}
+        {sidebarOpen && (
+          <div 
+            className="md:hidden fixed inset-0 bg-black/50 z-40"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         {/* Sidebar */}
-        <aside className="w-64 bg-card border-r border-border p-4 space-y-1 flex-shrink-0">
+        <aside className={`
+          fixed md:static inset-y-0 left-0 z-50
+          w-64 bg-card border-r border-border p-4 space-y-1 flex-shrink-0
+          transform transition-transform duration-300 ease-in-out
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+          overflow-y-auto
+          top-[52px] md:top-0
+        `}>
           <button
-            onClick={() => setActiveSection("general")}
+            onClick={() => {
+              setActiveSection("general");
+              setSidebarOpen(false);
+            }}
             className={`w-full text-left px-4 py-3 rounded text-sm font-medium flex items-center justify-between transition-colors ${activeSection === "general" ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}
           >
             General Info <ChevronRight className="h-4 w-4" />
@@ -1044,7 +1084,10 @@ export default function AdminPage() {
           {sectionLabels.filter(s => s.key !== "contacts").map((s) => (
             <button
               key={s.key}
-              onClick={() => setActiveSection(s.key)}
+              onClick={() => {
+                setActiveSection(s.key);
+                setSidebarOpen(false);
+              }}
               className={`w-full text-left px-4 py-3 rounded text-sm font-medium flex items-center justify-between transition-colors ${activeSection === s.key ? "bg-primary text-primary-foreground" : "hover:bg-muted"}`}
             >
               {s.label} <Edit3 className="h-3 w-3 opacity-50" />
@@ -1053,18 +1096,18 @@ export default function AdminPage() {
         </aside>
 
         {/* Editor */}
-        <main className="flex-1 p-8 max-w-3xl">
+        <main className="flex-1 p-4 md:p-8 max-w-full md:max-w-3xl">
           {activeSection && editors[activeSection] ? (
             <>
-              <h2 className="text-2xl font-display font-bold mb-6">
+              <h2 className="text-xl md:text-2xl font-display font-bold mb-4 md:mb-6">
                 {activeSection === "general" ? "General Info" : sectionLabels.find((s) => s.key === activeSection)?.label}
               </h2>
               {editors[activeSection]()}
             </>
           ) : (
-            <div className="text-center text-muted-foreground mt-20">
-              <Edit3 className="h-16 w-16 mx-auto mb-4 opacity-30" />
-              <p className="text-lg">Select a section from the sidebar to start editing</p>
+            <div className="text-center text-muted-foreground mt-12 md:mt-20">
+              <Edit3 className="h-12 w-12 md:h-16 md:w-16 mx-auto mb-4 opacity-30" />
+              <p className="text-base md:text-lg">Select a section from the sidebar to start editing</p>
             </div>
           )}
         </main>
@@ -1076,11 +1119,11 @@ export default function AdminPage() {
 function Field({ label, value, onChange, textarea }: { label: string; value: string; onChange: (v: string) => void; textarea?: boolean }) {
   return (
     <div>
-      <label className="block text-sm font-semibold mb-1">{label}</label>
+      <label className="block text-xs md:text-sm font-semibold mb-1">{label}</label>
       {textarea ? (
-        <textarea className="w-full border border-border rounded px-3 py-2 bg-background text-foreground resize-none" rows={3} value={value} onChange={(e) => onChange(e.target.value)} />
+        <textarea className="w-full border border-border rounded px-3 py-2 bg-background text-foreground resize-none text-sm" rows={3} value={value} onChange={(e) => onChange(e.target.value)} />
       ) : (
-        <input className="w-full border border-border rounded px-3 py-2 bg-background text-foreground" value={value} onChange={(e) => onChange(e.target.value)} />
+        <input className="w-full border border-border rounded px-3 py-2 bg-background text-foreground text-sm" value={value} onChange={(e) => onChange(e.target.value)} />
       )}
     </div>
   );
@@ -1113,28 +1156,28 @@ function MediaField({ label, value, onChange, accept = "video/*,image/*", hint }
 
   return (
     <div>
-      {label && <label className="block text-sm font-semibold mb-1">{label}</label>}
+      {label && <label className="block text-xs md:text-sm font-semibold mb-1">{label}</label>}
       {hint && <p className="text-xs text-muted-foreground mb-2">{hint}</p>}
-      <div className="flex gap-2 mb-2">
+      <div className="flex flex-wrap gap-2 mb-2">
         <button
           type="button"
           onClick={() => setMode("url")}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-colors ${mode === "url" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"}`}
+          className={`flex items-center gap-1.5 px-2 md:px-3 py-1.5 rounded text-xs font-medium transition-colors ${mode === "url" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"}`}
         >
-          <LinkIcon className="h-3 w-3" /> Paste URL
+          <LinkIcon className="h-3 w-3" /> <span className="hidden sm:inline">Paste</span> URL
         </button>
         <button
           type="button"
           onClick={() => setMode("upload")}
-          className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-colors ${mode === "upload" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"}`}
+          className={`flex items-center gap-1.5 px-2 md:px-3 py-1.5 rounded text-xs font-medium transition-colors ${mode === "upload" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground hover:bg-accent"}`}
         >
-          <Upload className="h-3 w-3" /> Upload File
+          <Upload className="h-3 w-3" /> Upload<span className="hidden sm:inline"> File</span>
         </button>
         {value && (
           <button
             type="button"
             onClick={() => onChange("")}
-            className="ml-auto flex items-center gap-1 px-3 py-1.5 rounded text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors"
+            className="ml-auto flex items-center gap-1 px-2 md:px-3 py-1.5 rounded text-xs font-medium text-destructive hover:bg-destructive/10 transition-colors"
           >
             <X className="h-3 w-3" /> Remove
           </button>
@@ -1142,7 +1185,7 @@ function MediaField({ label, value, onChange, accept = "video/*,image/*", hint }
       </div>
       {mode === "url" ? (
         <input
-          className="w-full border border-border rounded px-3 py-2 bg-background text-foreground text-sm"
+          className="w-full border border-border rounded px-3 py-2 bg-background text-foreground text-xs md:text-sm"
           placeholder="https://example.com/image.jpg"
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -1150,11 +1193,11 @@ function MediaField({ label, value, onChange, accept = "video/*,image/*", hint }
       ) : (
         <div
           onClick={() => !uploading && fileInputRef.current?.click()}
-          className={`border-2 border-dashed border-border rounded-lg p-6 text-center cursor-pointer hover:border-primary/50 hover:bg-accent/30 transition-colors ${uploading ? 'opacity-50' : ''}`}
+          className={`border-2 border-dashed border-border rounded-lg p-4 md:p-6 text-center cursor-pointer hover:border-primary/50 hover:bg-accent/30 transition-colors ${uploading ? 'opacity-50' : ''}`}
         >
           {uploading ? (
             <>
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+              <div className="animate-spin rounded-full h-6 w-6 md:h-8 md:w-8 border-b-2 border-primary mx-auto mb-2"></div>
               <p className="text-sm text-muted-foreground">Uploading...</p>
             </>
           ) : (
