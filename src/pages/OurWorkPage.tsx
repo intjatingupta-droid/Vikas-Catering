@@ -24,7 +24,7 @@ export default function OurWorkPage() {
       <Header />
       
       {/* Hero Section with Video/Image */}
-      <section className="relative h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[40vh] h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
         {ourWorkPage.heroMediaType === "video" && ourWorkPage.heroMedia ? (
           <>
             <video
@@ -47,21 +47,21 @@ export default function OurWorkPage() {
           </>
         )}
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-white">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white">
             {ourWorkPage.heroTitle}
           </h1>
         </div>
       </section>
 
       {/* Masonry Gallery Section */}
-      <section className="py-16 px-4">
+      <section className="py-12 md:py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-display font-bold text-primary text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-primary text-center mb-8 md:mb-12">
             {ourWorkPage.galleryHeading}
           </h2>
           
           {/* Masonry Grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 md:gap-4 space-y-3 md:space-y-4">
             {ourWorkPage.galleryImages.map((image, index) => (
               <div
                 key={index}

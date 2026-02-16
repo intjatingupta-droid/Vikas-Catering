@@ -56,7 +56,7 @@ export default function HeroSection() {
   }, [hero.videoUrl]);
 
   return (
-    <section className="relative min-h-[80vh] flex items-center">
+    <section className="relative min-h-[60vh] md:min-h-[80vh] flex items-center">
       {/* Background Image - Always show as fallback */}
       <div
         className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
@@ -70,8 +70,8 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-primary/10 to-background animate-pulse">
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
-              <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-primary mb-4"></div>
-              <p className="text-primary-foreground text-lg font-semibold">Loading...</p>
+              <div className="inline-block animate-spin rounded-full h-12 w-12 md:h-16 md:w-16 border-b-4 border-primary mb-4"></div>
+              <p className="text-primary-foreground text-base md:text-lg font-semibold">Loading...</p>
             </div>
           </div>
         </div>
@@ -97,20 +97,20 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-foreground/60" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 py-20">
+      <div className="relative z-10 container mx-auto px-4 py-12 md:py-20">
         <div className="max-w-2xl">
-          <p className="text-primary-foreground/80 text-lg mb-3 font-body text-shadow animate-fade-in">
+          <p className="text-primary-foreground/80 text-base md:text-lg mb-2 md:mb-3 font-body text-shadow animate-fade-in">
             {hero.welcomeText}
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-primary-foreground leading-tight mb-6 text-shadow animate-fade-in-up">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-primary-foreground leading-tight mb-4 md:mb-6 text-shadow animate-fade-in-up">
             {hero.heading}
           </h2>
-          <p className="text-primary-foreground/90 text-lg mb-8 leading-relaxed text-shadow animate-fade-in-up animation-delay-200">
+          <p className="text-primary-foreground/90 text-base md:text-lg mb-6 md:mb-8 leading-relaxed text-shadow animate-fade-in-up animation-delay-200">
             {hero.description}
           </p>
           <a
             href="#menu"
-            className="inline-block bg-primary text-primary-foreground px-8 py-3 font-semibold uppercase tracking-widest text-sm hover:opacity-90 transition-opacity border border-primary-foreground/30 animate-fade-in-up animation-delay-400"
+            className="inline-block bg-primary text-primary-foreground px-6 md:px-8 py-2.5 md:py-3 font-semibold uppercase tracking-widest text-xs md:text-sm hover:opacity-90 transition-opacity border border-primary-foreground/30 animate-fade-in-up animation-delay-400"
           >
             {hero.ctaText}
           </a>

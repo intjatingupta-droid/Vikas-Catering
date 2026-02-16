@@ -45,62 +45,62 @@ export default function ContactPage() {
       <Header />
       
       {/* Hero Section */}
-      <section className="relative h-[50vh] flex items-center justify-center bg-cover bg-center"
+      <section className="relative h-[40vh] md:h-[50vh] flex items-center justify-center bg-cover bg-center"
         style={{ backgroundImage: `url(${data.hero.backgroundImage})` }}
       >
         <div className="absolute inset-0 bg-black/60"></div>
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-6xl font-display font-bold text-white mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-2 md:mb-4">
             Contact Us
           </h1>
-          <p className="text-xl text-white/90">
+          <p className="text-lg md:text-xl text-white/90">
             Let's Create Memorable Moments!
           </p>
         </div>
       </section>
 
       {/* Contact Information Section */}
-      <section className="py-16 bg-background">
+      <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="text-5xl font-display font-bold text-primary text-center mb-12">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-primary text-center mb-8 md:mb-12">
             Reach Out to Us
           </h2>
           
-          <div className="max-w-4xl mx-auto text-center space-y-8">
+          <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
             {/* Address */}
             <div className="space-y-2">
-              <p className="text-2xl font-bold text-foreground leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-foreground leading-relaxed px-4">
                 {data.address}
               </p>
             </div>
 
             {/* Phone Numbers */}
-            <div className="space-y-3">
-              <a href={`tel:${data.phone}`} className="block text-4xl font-bold text-foreground hover:text-primary transition-colors">
+            <div className="space-y-2 md:space-y-3">
+              <a href={`tel:${data.phone}`} className="block text-2xl sm:text-3xl md:text-4xl font-bold text-foreground hover:text-primary transition-colors">
                 {data.phone}
               </a>
               {data.contact.alternatePhone && (
-                <a href={`tel:${data.contact.alternatePhone}`} className="block text-4xl font-bold text-foreground hover:text-primary transition-colors">
+                <a href={`tel:${data.contact.alternatePhone}`} className="block text-2xl sm:text-3xl md:text-4xl font-bold text-foreground hover:text-primary transition-colors">
                   {data.contact.alternatePhone}
                 </a>
               )}
             </div>
 
             {/* Social Media */}
-            <div className="flex items-center justify-center gap-3 pt-4">
+            <div className="flex items-center justify-center gap-2 md:gap-3 pt-4">
               {data.footer.socials.map((social, index) => (
                 <a
                   key={index}
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-14 h-14 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:opacity-80 transition-opacity"
+                  className="w-12 h-12 md:w-14 md:h-14 rounded-md bg-primary text-primary-foreground flex items-center justify-center hover:opacity-80 transition-opacity"
                   aria-label={social.platform}
                 >
-                  {social.platform === 'facebook' && <FaFacebook className="h-6 w-6" />}
-                  {social.platform === 'youtube' && <FaYoutube className="h-6 w-6" />}
-                  {social.platform === 'instagram' && <FaInstagram className="h-6 w-6" />}
-                  {social.platform === 'whatsapp' && <FaWhatsapp className="h-6 w-6" />}
+                  {social.platform === 'facebook' && <FaFacebook className="h-5 w-5 md:h-6 md:w-6" />}
+                  {social.platform === 'youtube' && <FaYoutube className="h-5 w-5 md:h-6 md:w-6" />}
+                  {social.platform === 'instagram' && <FaInstagram className="h-5 w-5 md:h-6 md:w-6" />}
+                  {social.platform === 'whatsapp' && <FaWhatsapp className="h-5 w-5 md:h-6 md:w-6" />}
                 </a>
               ))}
             </div>
@@ -187,13 +187,13 @@ export default function ContactPage() {
       </section> */}
 
       {/* Map Section */}
-      <section className="py-16 bg-background">
+      <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-display font-bold text-primary text-center mb-8">
+          <h2 className="text-2xl sm:text-3xl font-display font-bold text-primary text-center mb-6 md:mb-8">
             Find Us Here
           </h2>
           <div className="max-w-4xl mx-auto">
-            <div className="w-full h-96 bg-border rounded-lg overflow-hidden shadow-lg">
+            <div className="w-full h-64 md:h-96 bg-border rounded-lg overflow-hidden shadow-lg">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3549.7891234567!2d77.98765432109876!3d27.169876543210987!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39747121d702ff6d%3A0x8a9b7c6d5e4f3a2b!2s306%2C%20Sector%2015-B%2C%20Kar%20Kunj%20Chauraha%2C%20Avas%20Vikas%20Colony%2C%20Sikandra%2C%20Agra%2C%20Uttar%20Pradesh%20282007!5e0!3m2!1sen!2sin!4v1234567890123"
                 width="100%"
@@ -209,7 +209,7 @@ export default function ContactPage() {
                 href="https://maps.app.goo.gl/RSwrcBE42uuiUc8r9"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-primary hover:underline font-semibold"
+                className="inline-flex items-center gap-2 text-primary hover:underline font-semibold text-sm md:text-base"
               >
                 <span>📍</span> Open in Google Maps
               </a>

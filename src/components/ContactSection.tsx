@@ -13,17 +13,17 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-muted">
+    <section id="contact" className="py-12 md:py-20 bg-muted">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-1 gap-12 max-w-2xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-8 md:gap-12 max-w-2xl mx-auto">
           {/* Visit Us */}
           <div>
-            <h2 className="text-2xl font-display font-bold text-primary mb-2">{contact.visitHeading}</h2>
-            <h3 className="text-xl font-display font-bold mb-4">{contact.officeLabel}</h3>
-            <p className="text-foreground/70 mb-4 leading-relaxed">{data.address}</p>
-            <p className="mb-2"><span className="font-bold">Phone No:</span> {data.phone}</p>
-            <p className="mb-6"><span className="font-bold">Email Id:</span> {data.email}</p>
-            <div className="w-full h-64 bg-border rounded overflow-hidden">
+            <h2 className="text-xl md:text-2xl font-display font-bold text-primary mb-2">{contact.visitHeading}</h2>
+            <h3 className="text-lg md:text-xl font-display font-bold mb-3 md:mb-4">{contact.officeLabel}</h3>
+            <p className="text-foreground/70 mb-3 md:mb-4 leading-relaxed text-sm md:text-base">{data.address}</p>
+            <p className="mb-2 text-sm md:text-base"><span className="font-bold">Phone No:</span> {data.phone}</p>
+            <p className="mb-4 md:mb-6 text-sm md:text-base"><span className="font-bold">Email Id:</span> {data.email}</p>
+            <div className="w-full h-48 md:h-64 bg-border rounded overflow-hidden">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3549.4!2d77.97!3d27.17!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjfCsDEwJzEyLjAiTiA3N8KwNTgnMTIuMCJF!5e0!3m2!1sen!2sin!4v1"
                 width="100%"
