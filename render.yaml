@@ -2,7 +2,7 @@ services:
   - type: web
     name: vikas-caterings
     env: node
-    buildCommand: rm -rf dist && npm install && npm run build && npm install --prefix server
+    buildCommand: rm -rf dist node_modules/.vite && npm install && npm run build && npm install --prefix server
     startCommand: node server/index.js
     envVars:
       - key: MONGODB_URI
