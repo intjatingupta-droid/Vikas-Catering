@@ -1,7 +1,8 @@
 // API Configuration
-// If VITE_API_URL is empty, use same domain (for production on Render)
-// Otherwise use the specified URL (for local development)
-export const API_URL = import.meta.env.VITE_API_URL || '';
+// In production (Render), use same domain (empty string for relative URLs)
+// In development, use localhost backend
+const isDevelopment = import.meta.env.DEV;
+export const API_URL = isDevelopment ? 'http://localhost:5000' : '';
 
 // API Endpoints
 export const API_ENDPOINTS = {
