@@ -108,8 +108,8 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Contact Form Section */}
-      <section id="contact-form" className="py-16 bg-muted">
+      {/* Contact Form Section - HIDDEN */}
+      {/* <section id="contact-form" className="py-16 bg-muted">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl font-display font-bold text-primary text-center mb-8">
@@ -184,7 +184,7 @@ export default function ContactPage() {
             </form>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Map Section */}
       <section className="py-16 bg-background">

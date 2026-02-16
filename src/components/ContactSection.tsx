@@ -15,7 +15,7 @@ export default function ContactSection() {
   return (
     <section id="contact" className="py-20 bg-muted">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-12 max-w-2xl mx-auto">
           {/* Visit Us */}
           <div>
             <h2 className="text-2xl font-display font-bold text-primary mb-2">{contact.visitHeading}</h2>
@@ -36,8 +36,8 @@ export default function ContactSection() {
             </div>
           </div>
 
-          {/* Enquiry Form */}
-          <div>
+          {/* Enquiry Form - HIDDEN */}
+          {/* <div>
             <h2 className="text-2xl font-display font-bold text-primary mb-6">{contact.enquireHeading}</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               {[
@@ -70,7 +70,7 @@ export default function ContactSection() {
                 Send
               </button>
             </form>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
