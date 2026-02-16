@@ -38,7 +38,7 @@ async function saveDataToServer(data: SiteData): Promise<boolean> {
   try {
     const token = localStorage.getItem("token");
     if (!token) {
-      console.error('No auth token found');
+      // Silently skip save if not authenticated (public users)
       return false;
     }
 
@@ -52,6 +52,14 @@ async function saveDataToServer(data: SiteData): Promise<boolean> {
     });
 
     const result = await response.json();
+    
+    // If unauthorized, clear the token
+    if (response.status === 401) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      return false;
+    }
+    
     return result.success;
   } catch (error) {
     console.error('Failed to save data to server:', error);
@@ -71,9 +79,9 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  // Save to server whenever data changes (debounced)
+  // Save to server whenever data changes (debounced) - only if authenticated
   useEffect(() => {
-    if (!loading) {
+    if (!loading && localStorage.getItem("token")) {
       const timeoutId = setTimeout(() => {
         saveDataToServer(data);
       }, 1000); // Debounce saves by 1 second
