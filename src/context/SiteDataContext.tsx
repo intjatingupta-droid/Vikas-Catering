@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { SiteData, defaultSiteData } from "@/data/siteData";
+import { API_ENDPOINTS } from "@/config/api";
 
 interface SiteDataContextType {
   data: SiteData;
@@ -11,11 +12,9 @@ interface SiteDataContextType {
 
 const SiteDataContext = createContext<SiteDataContextType | null>(null);
 
-const API_URL = "http://localhost:5000/api";
-
 async function loadDataFromServer(): Promise<SiteData> {
   try {
-    const response = await fetch(`${API_URL}/sitedata`);
+    const response = await fetch(API_ENDPOINTS.siteData);
     const result = await response.json();
     
     if (result.success && result.data) {
@@ -41,7 +40,7 @@ async function saveDataToServer(data: SiteData): Promise<boolean> {
       return false;
     }
 
-    const response = await fetch(`${API_URL}/sitedata`, {
+    const response = await fetch(API_ENDPOINTS.siteData, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
