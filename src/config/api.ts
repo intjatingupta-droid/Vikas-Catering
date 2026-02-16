@@ -1,5 +1,7 @@
 // API Configuration
-export const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// If VITE_API_URL is empty, use same domain (for production on Render)
+// Otherwise use the specified URL (for local development)
+export const API_URL = import.meta.env.VITE_API_URL || '';
 
 // API Endpoints
 export const API_ENDPOINTS = {

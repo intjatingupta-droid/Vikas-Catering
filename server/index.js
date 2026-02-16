@@ -29,7 +29,7 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Middleware
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: FRONTEND_URL === '*' ? '*' : FRONTEND_URL,
   credentials: true
 }));
 app.use(express.json({ limit: '50mb' }));
@@ -334,6 +334,21 @@ app.delete('/api/contacts/:id', verifyToken, async (req, res) => {
     res.status(500).json({ message: 'Failed to delete contact', error: error.message });
   }
 });
+
+// Serve static files from the React app (frontend build)
+const frontendDistPath = path.join(__dirname, '..', 'dist');
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+  
+  // Handle React routing - return index.html for all non-API routes
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(frontendDistPath, 'index.html'));
+  });
+  console.log('✓ Serving frontend from:', frontendDistPath);
+} else {
+  console.log('⚠ Frontend build not found at:', frontendDistPath);
+  console.log('  Run "npm run build" in the root directory to build the frontend');
+}
 
 app.listen(PORT, () => {
   console.log(`✓ Server running on http://localhost:${PORT}`);
