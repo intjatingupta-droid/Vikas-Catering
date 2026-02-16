@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { API_ENDPOINTS } from "@/config/api";
 
 export default function Debug() {
   const [backendStatus, setBackendStatus] = useState<string>("Not checked");
@@ -8,7 +9,7 @@ export default function Debug() {
 
   const checkBackend = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/verify", {
+      const response = await fetch(API_ENDPOINTS.verify, {
         headers: {
           Authorization: `Bearer test`,
         },

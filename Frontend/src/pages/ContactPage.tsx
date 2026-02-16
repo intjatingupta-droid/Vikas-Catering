@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useState } from "react";
 import { FaFacebook, FaYoutube, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { API_ENDPOINTS } from "@/config/api";
 
 export default function ContactPage() {
   const { data } = useSiteData();
@@ -15,7 +16,7 @@ export default function ContactPage() {
     setSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch(API_ENDPOINTS.contact, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
