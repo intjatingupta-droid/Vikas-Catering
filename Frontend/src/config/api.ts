@@ -1,14 +1,15 @@
 // API Configuration
 // Reads from VITE_API_URL environment variable
-// Falls back to auto-detection: localhost in dev, render in production
+// Falls back to auto-detection: localhost in dev, backend domain in production
 const envApiUrl = import.meta.env.VITE_API_URL;
 const isDevelopment = import.meta.env.DEV;
 
-export const API_URL = envApiUrl 
+// Handle empty string as "not set"
+export const API_URL = (envApiUrl && envApiUrl.trim() !== '') 
   ? envApiUrl 
   : (isDevelopment 
       ? 'http://localhost:5000' 
-      : 'https://vikas-catering.onrender.com');
+      : 'https://backend.vikascateringservice.com');
 
 // API Endpoints
 export const API_ENDPOINTS = {
@@ -26,5 +27,8 @@ console.log('🔧 API Configuration:', {
   envApiUrl: envApiUrl || '(not set)',
   isDevelopment,
   API_URL,
+  mode: import.meta.env.MODE,
+  isProduction: import.meta.env.PROD,
+  allEnv: import.meta.env,
   'API_ENDPOINTS.login': API_ENDPOINTS.login,
 });
