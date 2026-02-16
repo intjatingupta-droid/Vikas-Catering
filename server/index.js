@@ -339,16 +339,21 @@ app.delete('/api/contacts/:id', verifyToken, async (req, res) => {
 const frontendDistPath = path.join(__dirname, '..', 'dist');
 if (fs.existsSync(frontendDistPath)) {
   app.use(express.static(frontendDistPath));
-  
-  // Handle React routing - return index.html for all non-API routes
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(frontendDistPath, 'index.html'));
-  });
   console.log('✓ Serving frontend from:', frontendDistPath);
 } else {
   console.log('⚠ Frontend build not found at:', frontendDistPath);
   console.log('  Run "npm run build" in the root directory to build the frontend');
 }
+
+// Handle React routing - return index.html for all non-API routes
+// This MUST be the last route
+app.get('*', (req, res) => {
+  if (fs.existsSync(frontendDistPath)) {
+    res.sendFile(path.join(frontendDistPath, 'index.html'));
+  } else {
+    res.status(404).send('Frontend not built. Run npm run build.');
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`✓ Server running on http://localhost:${PORT}`);
