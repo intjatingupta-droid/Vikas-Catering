@@ -58,15 +58,17 @@ export default function Header() {
 
       {/* Navigation */}
       <nav className="bg-background border-b border-border sticky top-0 z-50">
-        <div className="container mx-auto px-4 relative">
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden absolute left-4 top-1/2 -translate-y-1/2 p-2 z-50" 
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+        <div className="container mx-auto px-4">
+          {/* Mobile: Hamburger/X button and spacer */}
+          <div className="md:hidden flex items-center justify-between h-12">
+            <button 
+              className="p-2 z-50" 
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
 
           {/* Desktop Navigation */}
           <ul className="hidden md:flex items-center justify-center gap-1">
@@ -90,10 +92,20 @@ export default function Header() {
               </li>
             ))}
           </ul>
+        </div>
+      </nav>
 
-          {/* Mobile Navigation */}
-          <div className={`md:hidden ${mobileOpen ? "block" : "hidden"}`}>
-            <ul className="flex flex-col py-2">
+      {/* Mobile Menu Overlay */}
+      {mobileOpen && (
+        <>
+          <div 
+            className="md:hidden fixed inset-0 bg-black/50 z-40"
+            onClick={() => setMobileOpen(false)}
+          />
+          
+          {/* Mobile Navigation Menu */}
+          <div className="md:hidden fixed top-[108px] left-0 right-0 bg-background z-50 shadow-lg">
+            <ul className="flex flex-col">
               {navItems.map((item) => (
                 <li key={item.label}>
                   {item.href.startsWith("/") && !item.href.includes("#") ? (
@@ -117,18 +129,7 @@ export default function Header() {
               ))}
             </ul>
           </div>
-
-          {/* Spacer for mobile to maintain height */}
-          <div className="md:hidden h-12"></div>
-        </div>
-      </nav>
-
-      {/* Mobile Menu Overlay */}
-      {mobileOpen && (
-        <div 
-          className="md:hidden fixed inset-0 bg-black/50 z-40"
-          onClick={() => setMobileOpen(false)}
-        />
+        </>
       )}
     </header>
   );
