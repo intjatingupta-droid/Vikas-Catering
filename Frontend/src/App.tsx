@@ -10,7 +10,6 @@ import Login from "./pages/Login";
 import MenuPage from "./pages/MenuPage";
 import OurWorkPage from "./pages/OurWorkPage";
 import ContactPage from "./pages/ContactPage";
-import Debug from "./pages/Debug";
 import NotFound from "./pages/NotFound";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
@@ -29,7 +28,6 @@ const App = () => (
             <Route path="/our-work" element={<OurWorkPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/debug" element={<Debug />} />
             <Route
               path="/admin"
               element={

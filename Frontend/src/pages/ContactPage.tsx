@@ -1,7 +1,7 @@
+import React, { useState } from "react";
 import { useSiteData } from "@/context/SiteDataContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { useState } from "react";
 import { FaFacebook, FaYoutube, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { API_ENDPOINTS } from "@/config/api";
 
