@@ -4,6 +4,12 @@
 const isDevelopment = import.meta.env.DEV;
 export const API_URL = isDevelopment ? 'http://localhost:5000' : '';
 
+console.log('🔧 API Configuration:', {
+  isDevelopment,
+  API_URL: API_URL || '(same domain)',
+  mode: import.meta.env.MODE
+});
+
 // API Endpoints
 export const API_ENDPOINTS = {
   login: `${API_URL}/api/login`,
