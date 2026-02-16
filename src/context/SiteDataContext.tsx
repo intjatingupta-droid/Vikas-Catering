@@ -14,7 +14,15 @@ const SiteDataContext = createContext<SiteDataContextType | null>(null);
 
 async function loadDataFromServer(): Promise<SiteData> {
   try {
-    const response = await fetch(API_ENDPOINTS.siteData);
+    // Add cache-busting parameter to ensure fresh data
+    const cacheBuster = `?t=${Date.now()}`;
+    const response = await fetch(API_ENDPOINTS.siteData + cacheBuster, {
+      cache: 'no-store',
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache'
+      }
+    });
     const result = await response.json();
     
     if (result.success && result.data) {

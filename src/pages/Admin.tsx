@@ -5,6 +5,7 @@ import { Save, RotateCcw, ChevronRight, Edit3, Plus, Trash2, ArrowLeft, Upload, 
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { API_ENDPOINTS } from "@/config/api";
 
 type SectionKey = keyof SiteData;
 
@@ -58,7 +59,7 @@ export default function AdminPage() {
     setLoadingContacts(true);
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch('http://localhost:5000/api/contacts', {
+      const response = await fetch(API_ENDPOINTS.contacts, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -87,7 +88,7 @@ export default function AdminPage() {
   const updateContactStatus = async (id: string, status: string) => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/contacts/${id}`, {
+      const response = await fetch(API_ENDPOINTS.contactUpdate(id), {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -110,7 +111,7 @@ export default function AdminPage() {
     
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/contacts/${id}`, {
+      const response = await fetch(API_ENDPOINTS.contactDelete(id), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -1007,7 +1008,16 @@ export default function AdminPage() {
             )}
           </button>
           
-          <button onClick={() => { resetToDefaults(); showSaved(); }} className="flex items-center gap-2 text-sm hover:opacity-80">
+          <button 
+            onClick={() => { 
+              if (confirm('⚠️ Are you sure you want to reset ALL data to defaults? This will restore all default images and text. This action cannot be undone!')) {
+                resetToDefaults(); 
+                toast.success('All data reset to defaults!');
+                setTimeout(() => window.location.reload(), 1000);
+              }
+            }} 
+            className="flex items-center gap-2 text-sm hover:opacity-80 bg-red-600/20 hover:bg-red-600/30 px-3 py-1.5 rounded transition-colors"
+          >
             <RotateCcw className="h-4 w-4" /> Reset to Defaults
           </button>
           <button onClick={handleLogout} className="flex items-center gap-2 text-sm hover:opacity-80 bg-primary-foreground/10 px-3 py-1.5 rounded">
