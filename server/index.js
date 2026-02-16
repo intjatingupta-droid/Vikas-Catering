@@ -199,11 +199,38 @@ app.get('/api/sitedata', async (req, res) => {
     if (siteData) {
       res.json({ success: true, data: siteData.data });
     } else {
+      // No data in DB, return null so frontend uses defaults
       res.json({ success: true, data: null });
     }
   } catch (error) {
     console.error('Get site data error:', error);
     res.status(500).json({ message: 'Failed to get site data', error: error.message });
+  }
+});
+
+// Debug endpoint to check what's in database
+app.get('/api/sitedata/debug', async (req, res) => {
+  try {
+    const siteData = await SiteData.findOne({ dataKey: 'main' });
+    res.json({ 
+      success: true, 
+      hasData: !!siteData,
+      data: siteData ? siteData.data : null,
+      updatedAt: siteData ? siteData.updatedAt : null
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Debug failed', error: error.message });
+  }
+});
+
+// Reset site data (Protected) - deletes DB data to use defaults
+app.delete('/api/sitedata/reset', verifyToken, async (req, res) => {
+  try {
+    await SiteData.deleteOne({ dataKey: 'main' });
+    res.json({ success: true, message: 'Site data reset to defaults' });
+  } catch (error) {
+    console.error('Reset site data error:', error);
+    res.status(500).json({ message: 'Failed to reset site data', error: error.message });
   }
 });
 

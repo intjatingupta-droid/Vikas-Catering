@@ -18,13 +18,37 @@ async function loadDataFromServer(): Promise<SiteData> {
     const result = await response.json();
     
     if (result.success && result.data) {
-      // Merge with defaults to ensure new fields exist
-      return {
-        ...defaultSiteData,
-        ...result.data,
-        detailedMenu: result.data.detailedMenu || defaultSiteData.detailedMenu,
-        ourWorkPage: result.data.ourWorkPage || defaultSiteData.ourWorkPage,
+      // Helper to check if a value is a broken image path
+      const isBrokenImagePath = (value: any): boolean => {
+        return typeof value === 'string' && value.startsWith('/src/assets/');
       };
+      
+      // Deep merge function to preserve default images if DB has broken paths
+      const mergeWithDefaults = (dbData: any, defaults: any): any => {
+        const merged = { ...defaults };
+        
+        for (const key in dbData) {
+          if (dbData[key] && typeof dbData[key] === 'object' && !Array.isArray(dbData[key])) {
+            merged[key] = mergeWithDefaults(dbData[key], defaults[key] || {});
+          } else if (Array.isArray(dbData[key])) {
+            // For arrays, check if items are broken image paths
+            const hasValidItems = dbData[key].some((item: any) => !isBrokenImagePath(item));
+            merged[key] = hasValidItems ? dbData[key].map((item: any, index: number) => 
+              isBrokenImagePath(item) ? (defaults[key]?.[index] || item) : item
+            ) : defaults[key];
+          } else {
+            // For primitive values, use defaults if it's a broken image path
+            merged[key] = isBrokenImagePath(dbData[key]) ? defaults[key] : 
+              (dbData[key] !== null && dbData[key] !== undefined && dbData[key] !== '' 
+                ? dbData[key] 
+                : defaults[key]);
+          }
+        }
+        
+        return merged;
+      };
+      
+      return mergeWithDefaults(result.data, defaultSiteData);
     }
   } catch (error) {
     console.error('Failed to load data from server:', error);
