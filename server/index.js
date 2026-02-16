@@ -20,6 +20,9 @@ const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/catering-admin';
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:8080';
+const BACKEND_URL = process.env.BACKEND_URL || (process.env.NODE_ENV === 'production' 
+  ? 'https://vikas-catering.onrender.com' 
+  : `http://localhost:${PORT}`);
 
 // Create uploads directory if it doesn't exist
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -29,7 +32,11 @@ if (!fs.existsSync(uploadsDir)) {
 
 // Middleware
 app.use(cors({
-  origin: ['https://vikas-catering.vercel.app', 'http://localhost:8080', 'http://localhost:5173'],
+  origin: [
+    process.env.FRONTEND_URL || 'http://localhost:8080',
+    'http://localhost:5173', // Vite dev server
+    'https://vikas-catering.vercel.app' // Keep for backward compatibility
+  ],
   credentials: true
 }));
 app.use(express.json({ limit: '50mb' }));
@@ -178,11 +185,8 @@ app.post('/api/upload', verifyToken, upload.single('file'), (req, res) => {
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
-    // Use production URL or localhost based on environment
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://vikas-catering.onrender.com'
-      : `http://localhost:${PORT}`;
-    const fileUrl = `${baseUrl}/uploads/${req.file.filename}`;
+    // Use BACKEND_URL from environment variable
+    const fileUrl = `${BACKEND_URL}/uploads/${req.file.filename}`;
     
     res.json({
       success: true,

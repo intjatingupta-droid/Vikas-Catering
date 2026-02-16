@@ -14,8 +14,8 @@ const __dirname = path.dirname(__filename);
 // MongoDB connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://intarjungupta_db_user:iM6kYdM9td723RHe@cluster0.vxgwivf.mongodb.net/catering-admin?retryWrites=true&w=majority';
 
-// Server URL (change this based on environment)
-const SERVER_URL = process.env.SERVER_URL || 'http://localhost:5000';
+// Server URL - reads from BACKEND_URL env variable
+const SERVER_URL = process.env.BACKEND_URL || process.env.SERVER_URL || 'http://localhost:5000';
 
 // Admin credentials for authentication
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || 'admin';

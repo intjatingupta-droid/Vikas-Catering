@@ -1,10 +1,14 @@
 // API Configuration
-// Production: Use Render backend URL
-// Development: Use localhost backend
+// Reads from VITE_API_URL environment variable
+// Falls back to auto-detection: localhost in dev, render in production
+const envApiUrl = import.meta.env.VITE_API_URL;
 const isDevelopment = import.meta.env.DEV;
-export const API_URL = isDevelopment 
-  ? 'http://localhost:5000' 
-  : 'https://vikas-catering.onrender.com';
+
+export const API_URL = envApiUrl 
+  ? envApiUrl 
+  : (isDevelopment 
+      ? 'http://localhost:5000' 
+      : 'https://vikas-catering.onrender.com');
 
 // API Endpoints
 export const API_ENDPOINTS = {
@@ -19,6 +23,7 @@ export const API_ENDPOINTS = {
 };
 
 console.log('🔧 API Configuration:', {
+  envApiUrl: envApiUrl || '(not set)',
   isDevelopment,
   API_URL,
   'API_ENDPOINTS.login': API_ENDPOINTS.login,

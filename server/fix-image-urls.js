@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://intarjungupta_db_user:iM6kYdM9td723RHe@cluster0.vxgwivf.mongodb.net/catering-admin?retryWrites=true&w=majority';
-const PRODUCTION_URL = 'https://vikas-catering.onrender.com';
+const PRODUCTION_URL = process.env.BACKEND_URL || 'https://vikas-catering.onrender.com';
 
 // Define the SiteData schema
 const siteDataSchema = new mongoose.Schema({
