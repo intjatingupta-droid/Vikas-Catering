@@ -27,12 +27,12 @@ git push origin main
 
 **Build Command:**
 ```
-npm install && npm run build && cd server && npm install
+npm install && npm run build && npm install --prefix server
 ```
 
 **Start Command:**
 ```
-cd server && node index.js
+node server/index.js
 ```
 
 **Root Directory:** Leave empty (use repository root)
@@ -44,8 +44,8 @@ cd server && node index.js
 4. Configure:
    - **Name**: `vikas-caterings`
    - **Environment**: `Node`
-   - **Build Command**: `npm install && npm run build && cd server && npm install`
-   - **Start Command**: `cd server && node index.js`
+   - **Build Command**: `npm install && npm run build && npm install --prefix server`
+   - **Start Command**: `node server/index.js`
    - **Instance Type**: Free or Starter
 
 ### 3. Environment Variables
