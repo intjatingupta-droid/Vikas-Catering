@@ -1,13 +1,14 @@
 // API Configuration
 // In production (Render), use same domain (empty string for relative URLs)
 // In development, use localhost backend
-const isDevelopment = import.meta.env.DEV;
-export const API_URL = isDevelopment ? 'http://localhost:5000' : '';
+const isProduction = import.meta.env.MODE === 'production';
+export const API_URL = isProduction ? '' : 'http://localhost:5000';
 
 console.log('🔧 API Configuration:', {
-  isDevelopment,
-  API_URL: API_URL || '(same domain)',
-  mode: import.meta.env.MODE
+  mode: import.meta.env.MODE,
+  isProduction,
+  API_URL: API_URL || '(same domain - relative URLs)',
+  allEnv: import.meta.env
 });
 
 // API Endpoints
