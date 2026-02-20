@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from "react";
 import { SiteData, defaultSiteData } from "@/data/siteData";
 import { API_ENDPOINTS } from "@/config/api";
 
@@ -70,10 +70,13 @@ async function saveDataToServer(data: SiteData): Promise<boolean> {
 export function SiteDataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<SiteData>(defaultSiteData);
   const [loading, setLoading] = useState(true);
+  const savingRef = useRef(false);
 
   // Load data from server on mount
   useEffect(() => {
+    console.log('📥 Loading data from server...');
     loadDataFromServer().then((loadedData) => {
+      console.log('✓ Data loaded from server');
       setData(loadedData);
       setLoading(false);
     });
@@ -81,13 +84,27 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
   // Save to server whenever data changes (debounced) - only if authenticated
   useEffect(() => {
-    if (!loading && localStorage.getItem("token")) {
-      const timeoutId = setTimeout(() => {
-        saveDataToServer(data);
-      }, 1000); // Debounce saves by 1 second
-
-      return () => clearTimeout(timeoutId);
+    // Skip if still loading, already saving, or not authenticated
+    if (loading || savingRef.current || !localStorage.getItem("token")) {
+      return;
     }
+
+    const timeoutId = setTimeout(async () => {
+      console.log('💾 Saving data to server...');
+      savingRef.current = true;
+      
+      const success = await saveDataToServer(data);
+      
+      savingRef.current = false;
+      
+      if (success) {
+        console.log('✓ Data saved to server successfully');
+      } else {
+        console.error('✗ Failed to save data to server');
+      }
+    }, 1000); // Debounce saves by 1 second
+
+    return () => clearTimeout(timeoutId);
   }, [data, loading]);
 
   const updateData = (newData: Partial<SiteData>) => {

@@ -16,12 +16,23 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/catering-admin';
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:8080';
-const BACKEND_URL = process.env.BACKEND_URL || (process.env.NODE_ENV === 'production' 
-  ? 'https://vikas-catering.onrender.com' 
+
+// Auto-detect environment URLs
+const isProduction = process.env.NODE_ENV === 'production';
+const isDevelopment = !isProduction;
+
+// Frontend URL - Auto-detect or use env variable
+const FRONTEND_URL = process.env.FRONTEND_URL || (isProduction 
+  ? 'https://vikascateringservice.com' 
+  : 'http://localhost:8080');
+
+// Backend URL - Auto-detect or use env variable
+// In production on vikascateringservice.com, API is at /api path
+const BACKEND_URL = process.env.BACKEND_URL || (isProduction 
+  ? 'https://vikascateringservice.com/api' 
   : `http://localhost:${PORT}`);
 
 // Create uploads directory if it doesn't exist
@@ -33,11 +44,17 @@ if (!fs.existsSync(uploadsDir)) {
 // Middleware
 app.use(cors({
   origin: [
-    process.env.FRONTEND_URL || 'http://localhost:8080',
+    // Production domains
+    'https://vikascateringservice.com',
+    'https://www.vikascateringservice.com',
+    // Development
+    'http://localhost:8080',
     'http://localhost:5173', // Vite dev server
-    'https://vikas-catering.vercel.app', // Vercel domain
-    'https://vikascateringservice.com', // Custom domain
-    'https://www.vikascateringservice.com' // Custom domain with www
+    'http://localhost:3000',
+    // Vercel preview deployments
+    /\.vercel\.app$/,
+    // Allow any localhost port for development
+    /^http:\/\/localhost:\d+$/
   ],
   credentials: true
 }));
@@ -184,11 +201,18 @@ app.get('/api/verify', verifyToken, (req, res) => {
 app.post('/api/upload', verifyToken, upload.single('file'), (req, res) => {
   try {
     if (!req.file) {
+      console.error('✗ No file uploaded');
       return res.status(400).json({ message: 'No file uploaded' });
     }
 
     // Use BACKEND_URL from environment variable
     const fileUrl = `${BACKEND_URL}/uploads/${req.file.filename}`;
+    
+    console.log('✓ File uploaded successfully:');
+    console.log('  - Filename:', req.file.filename);
+    console.log('  - Size:', req.file.size, 'bytes');
+    console.log('  - Type:', req.file.mimetype);
+    console.log('  - URL:', fileUrl);
     
     res.json({
       success: true,
@@ -198,7 +222,7 @@ app.post('/api/upload', verifyToken, upload.single('file'), (req, res) => {
       mimetype: req.file.mimetype
     });
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('✗ Upload error:', error);
     res.status(500).json({ message: 'Upload failed', error: error.message });
   }
 });
@@ -206,15 +230,20 @@ app.post('/api/upload', verifyToken, upload.single('file'), (req, res) => {
 // Get Site Data
 app.get('/api/sitedata', async (req, res) => {
   try {
+    console.log('📥 Fetching site data from MongoDB...');
     const siteData = await SiteData.findOne({ dataKey: 'main' });
     if (siteData) {
+      console.log('✓ Site data found in MongoDB');
+      console.log('  - Data size:', JSON.stringify(siteData.data).length, 'bytes');
+      console.log('  - Last updated:', siteData.updatedAt);
       res.json({ success: true, data: siteData.data });
     } else {
+      console.log('⚠ No site data found in MongoDB, returning null');
       // No data in DB, return null so frontend uses defaults
       res.json({ success: true, data: null });
     }
   } catch (error) {
-    console.error('Get site data error:', error);
+    console.error('✗ Get site data error:', error);
     res.status(500).json({ message: 'Failed to get site data', error: error.message });
   }
 });
@@ -239,15 +268,21 @@ app.post('/api/sitedata', verifyToken, async (req, res) => {
       return res.status(400).json({ message: 'No data provided' });
     }
 
+    console.log('💾 Saving site data to MongoDB...');
+    
     const siteData = await SiteData.findOneAndUpdate(
       { dataKey: 'main' },
       { data: data, updatedAt: new Date() },
       { upsert: true, new: true }
     );
 
+    console.log('✓ Site data saved successfully to MongoDB');
+    console.log('  - Data size:', JSON.stringify(data).length, 'bytes');
+    console.log('  - Updated at:', siteData.updatedAt);
+
     res.json({ success: true, data: siteData.data });
   } catch (error) {
-    console.error('Update site data error:', error);
+    console.error('✗ Update site data error:', error);
     res.status(500).json({ message: 'Failed to update site data', error: error.message });
   }
 });
@@ -332,7 +367,26 @@ app.delete('/api/contacts/:id', verifyToken, async (req, res) => {
 });
 
 app.listen(PORT, () => {
+  console.log('\n============================================================');
+  console.log('🚀 Vikas Catering Service - Backend Server');
+  console.log('============================================================\n');
   console.log(`✓ Server running on http://localhost:${PORT}`);
-  console.log(`✓ Connected to MongoDB Atlas`);
-  console.log(`✓ CORS enabled for Vercel frontend`);
+  console.log(`✓ Environment: ${isProduction ? 'PRODUCTION' : 'DEVELOPMENT'}`);
+  console.log(`✓ MongoDB: ${MONGODB_URI.includes('mongodb+srv') ? 'MongoDB Atlas (Cloud)' : 'Local MongoDB'}`);
+  console.log(`✓ Frontend URL: ${FRONTEND_URL}`);
+  console.log(`✓ Backend URL: ${BACKEND_URL}`);
+  console.log('\n📡 API Endpoints:');
+  console.log(`   - Login:      ${BACKEND_URL}/login`);
+  console.log(`   - Site Data:  ${BACKEND_URL}/sitedata`);
+  console.log(`   - Upload:     ${BACKEND_URL}/upload`);
+  console.log(`   - Contact:    ${BACKEND_URL}/contact`);
+  console.log(`   - Contacts:   ${BACKEND_URL}/contacts`);
+  console.log('\n🔒 CORS enabled for:');
+  console.log(`   - ${FRONTEND_URL}`);
+  console.log(`   - http://localhost:* (development)`);
+  if (isProduction) {
+    console.log(`   - https://vikascateringservice.com`);
+    console.log(`   - https://www.vikascateringservice.com`);
+  }
+  console.log('\n============================================================\n');
 });

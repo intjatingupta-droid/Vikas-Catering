@@ -1134,23 +1134,39 @@ function MediaField({ label, value, onChange, accept = "video/*,image/*", hint }
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setUploading(true);
       
-      // Convert file to base64 data URL for localStorage persistence
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result as string;
-        onChange(base64String);
+      try {
+        // Upload file to server
+        const formData = new FormData();
+        formData.append('file', file);
+        
+        const token = localStorage.getItem('token');
+        const response = await fetch(API_ENDPOINTS.upload, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+          body: formData,
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.success) {
+          onChange(result.url);
+          toast.success('File uploaded successfully');
+        } else {
+          toast.error(result.message || 'Failed to upload file');
+        }
+      } catch (error) {
+        console.error('Upload error:', error);
+        toast.error('Failed to upload file');
+      } finally {
         setUploading(false);
-      };
-      reader.onerror = () => {
-        toast.error("Failed to upload file");
-        setUploading(false);
-      };
-      reader.readAsDataURL(file);
+      }
     }
   };
 
